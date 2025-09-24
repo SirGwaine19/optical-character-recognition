@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OCR Demo</title>
+    
+
+    <link rel="stylesheet" type="text/css" href="../static/ocr.css">
+</head>
+<body>
+    <div class="container">
+      <h1>OCR Demo</h1>
+      <canvas id="canvas" width="280" height="280"></canvas>
+      <script defer src="../static/ocr.js">
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext('2d');
+      
+        // Fill background with black
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+        // Set stroke style for drawing (white lines)
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 20;
+        ctx.lineCap = "round";
+      
+        let drawing = false;
+      
+        canvas.addEventListener("mousedown", e => {
+          drawing = true;
+          ctx.beginPath();
+          ctx.moveTo(e.offsetX, e.offsetY);
+        });
+      
+        canvas.addEventListener("mousemove", e => {
+          if (drawing) {
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+          }
+        });
+      
+        canvas.addEventListener("mouseup", () => drawing = false);
+        canvas.addEventListener("mouseleave", () => drawing = false);
+      </script> 
+      <div>
+        <label>Digit: </label>
+        <input type="text" id="digit" size="2">
+      </div>
+      <div>
+        <button onclick="ocrDemo.train()">Train</button>
+        <button onclick="ocrDemo.test()">Test</button>
+        <button onclick="ocrDemo.resetCanvas()">Reset</button>
+      </div>
+    </div>
+  
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        text-align: center;
+      }
+      canvas {
+        border:2px solid #000;;
+        margin-bottom: 10px;
+      }
+      button {
+        margin: 5px;
+        padding: 5px 10px;
+      }
+    </style>
+  </body>  
+</html>
